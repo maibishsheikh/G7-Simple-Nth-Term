@@ -1,13 +1,18 @@
 // src/components/gamification/KingdomMap.jsx
+// Pixel-matched 10-world grid (2 rows × 5 columns) matching reference Image 2
 import React from 'react';
 import './KingdomMap.css';
-import StarRating from './StarRating.jsx';
 import { calcStars } from '../../utils/scoring.js';
 import { DISTRICTS } from '../../data/questionBank.js';
 
-export default function KingdomMap({ districtScores, districtCorrect, currentDistrict, onSelectDistrict }) {
+export default function KingdomMap({
+  districtScores,
+  districtCorrect,
+  currentDistrict,
+  onSelectDistrict,
+}) {
   return (
-    <div className="kingdom-grid">
+    <div className="kingdom-grid-5x2">
       {DISTRICTS.map((dist, idx) => {
         const isCurrent = idx === currentDistrict;
         const isCompleted = districtScores?.[idx] !== null && districtScores?.[idx] !== undefined;
@@ -15,30 +20,54 @@ export default function KingdomMap({ districtScores, districtCorrect, currentDis
         const correct = districtCorrect?.[idx] || 0;
         const stars = isCompleted ? calcStars(districtScores[idx]) : 0;
 
+        const qStart = idx * 10 + 1;
+        const qEnd = idx * 10 + 10;
+
         return (
           <div
             key={dist.id}
-            className={`kingdom-district-card ${isCurrent ? 'current' : ''} ${isCompleted ? 'completed' : ''} ${!isUnlocked ? 'locked' : ''}`}
+            className={`world-card-node ${isCurrent ? 'active-world' : ''} ${isCompleted ? 'completed-world' : ''} ${!isUnlocked ? 'locked-world' : ''}`}
             onClick={() => isUnlocked && onSelectDistrict && onSelectDistrict(idx)}
             role="button"
             tabIndex={isUnlocked ? 0 : -1}
+            aria-label={`World ${idx + 1}: ${dist.name} (${isUnlocked ? 'Unlocked' : 'Locked'})`}
           >
-            <div className="district-icon-wrap">
-              <span className="district-icon">{isUnlocked ? dist.icon : '🔒'}</span>
+            {/* Top row: W{idx+1} and Q range */}
+            <div className="card-top-row">
+              <span className="world-pill-badge">W{idx + 1}</span>
+              <span className="world-q-range">Q{qStart}–{qEnd}</span>
             </div>
 
-            <div className="district-info">
-              <span className="district-num">World {idx + 1}</span>
-              <span className="district-name">{dist.name}</span>
+            {/* Center icon */}
+            <div className="world-center-icon-wrap">
               {isCompleted ? (
-                <div className="district-score-row">
-                  <StarRating stars={stars} size="sm" />
-                  <span className="district-score-fraction">{correct}/10</span>
-                </div>
+                <span className="world-done-icon">⭐</span>
               ) : isCurrent ? (
-                <span className="district-status active-status">In Progress</span>
+                <div className="world-target-ring" title="Active World">
+                  <span className="target-core-dot">◎</span>
+                </div>
+              ) : isUnlocked ? (
+                <span className="world-open-icon">{dist.icon}</span>
               ) : (
-                <span className="district-status">{isUnlocked ? 'Ready' : 'Locked'}</span>
+                <span className="world-lock-icon">🔒</span>
+              )}
+            </div>
+
+            {/* World Name */}
+            <div className="world-title-text" title={dist.name}>
+              {dist.name}
+            </div>
+
+            {/* Bottom status */}
+            <div className="world-bottom-status">
+              {isCompleted ? (
+                <span className="status-completed-text">{correct}/10 ⭐</span>
+              ) : isCurrent ? (
+                <span className="status-play-text">Play →</span>
+              ) : isUnlocked ? (
+                <span className="status-ready-text">Ready</span>
+              ) : (
+                <span className="status-locked-text">Locked</span>
               )}
             </div>
           </div>

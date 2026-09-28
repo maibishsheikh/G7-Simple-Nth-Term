@@ -7,6 +7,7 @@ import BossBattleModal from '../quiz/BossBattleModal.jsx';
 import FeedbackOverlay from '../shared/FeedbackOverlay.jsx';
 import { useAudio } from '../../hooks/useAudio.js';
 import { DISTRICTS } from '../../data/questionBank.js';
+import { calcStars } from '../../utils/scoring.js';
 import {
   playQuestionNarration,
   playCorrectNarration,
@@ -31,6 +32,9 @@ export default function PlayPhase({ state, dispatch }) {
   const district = DISTRICTS[distIdx] || DISTRICTS[0];
   const qInDistrict = qIdx % 10;
   const isPlayDone = state?.phaseComplete?.play;
+  const totalStars = state?.totalStars || (state?.districtScores
+    ? state.districtScores.reduce((acc, sc) => (sc !== null && sc !== undefined ? acc + calcStars(sc) : acc), 0)
+    : 0);
 
   // Narrate question when question changes
   useEffect(() => {
@@ -154,50 +158,56 @@ export default function PlayPhase({ state, dispatch }) {
     );
   }
 
-  // District Map Screen
+  // District Map Screen (Image 2 layout)
   if (showMap) {
     const isAllDone = qIdx >= 100;
     return (
       <div className="play-map-wrap">
         <div className="play-map-card glass-card">
-          <h2 className="play-map-title subheadline">🗺️ Money Worlds Kingdom</h2>
-          <p className="body-text" style={{ color: 'var(--text-secondary)', textAlign: 'center' }}>
-            {isAllDone ? (
-              <strong style={{ color: 'var(--gold)' }}>All 10 Money Worlds Complete!</strong>
-            ) : (
-              <>World {distIdx + 1}: <strong style={{ color: 'var(--gold)' }}>{district.name}</strong></>
-            )}
-          </p>
+          {/* Top glowing cyan/mint line */}
+          <div className="map-top-accent-line" aria-hidden="true" />
 
+          {/* Header Row */}
+          <div className="map-header-row">
+            <div className="map-header-left">
+              <h2 className="map-title-text">Progression Game Worlds</h2>
+              <p className="map-subtitle-text">
+                10 Themed Worlds · Need 4/10 Correct to Unlock Next World
+              </p>
+            </div>
+            <div className="map-stars-pill">
+              ⭐ {totalStars} / 30
+            </div>
+          </div>
+
+          {/* 10 Worlds Grid (5 columns x 2 rows) */}
           <KingdomMap
             districtScores={state?.districtScores || []}
             districtCorrect={state?.districtCorrect || []}
             currentDistrict={isAllDone ? 10 : distIdx}
             onSelectDistrict={(d) => {
               if (d <= distIdx) {
-                setShowMap(false);
+                startDistrict(d);
               }
             }}
           />
 
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '10px' }}>
-            {!isAllDone ? (
-              <>
-                <button className="btn btn-primary" onClick={() => startDistrict(distIdx)}>
-                  🚀 Enter {district.name}!
-                </button>
-                <button className="btn btn-outline" onClick={() => setShowBoss(true)} style={{ borderColor: '#feca57', color: '#feca57' }}>
-                  👑 Challenge Boss ({district.boss.name})
-                </button>
-                <button className="btn btn-outline" onClick={() => dispatch({ type: 'SET_PHASE', payload: 'reflect' })}>
-                  📓 Jump to Reflect
-                </button>
-              </>
-            ) : (
-              <button className="btn btn-primary" onClick={() => setShowMap(false)}>
-                📊 View Results
-              </button>
-            )}
+          {/* Bottom Action Controls */}
+          <div className="map-bottom-actions">
+            <button
+              className="boss-battle-pill-btn"
+              onClick={() => setShowBoss(true)}
+            >
+              <span className="crown-icon">👑</span>
+              <span>Boss Battle: {district.boss.name}</span>
+            </button>
+            <button
+              className="jump-reflect-pill-btn"
+              onClick={() => dispatch({ type: 'SET_PHASE', payload: 'reflect' })}
+            >
+              <span>📓</span>
+              <span>Jump to Reflect Phase →</span>
+            </button>
           </div>
         </div>
 
@@ -208,7 +218,7 @@ export default function PlayPhase({ state, dispatch }) {
             questions={qs.slice(distIdx * 10, distIdx * 10 + 5)}
             onWin={() => {
               setShowBoss(false);
-              dispatch({ type: 'UNLOCK_BADGE', payload: 'boss_slayer' });
+              dispatch({ type: 'UNLOCK_BADGE', payload: 'signboard_fixed' });
             }}
             onClose={() => setShowBoss(false)}
             audioEnabled={state?.audioEnabled}
