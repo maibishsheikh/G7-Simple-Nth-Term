@@ -1,11 +1,14 @@
 // src/components/phases/WonderPhase.jsx
+// Wonder Phase for NthQuest (Grade 7 · Simple Nth Term)
+// Strictly follows NthQuest_Grade7_PRD.md §8.1
+
 import React, { useEffect } from 'react';
 import './WonderPhase.css';
 import Mascot from '../shared/Mascot.jsx';
 import { useAudio } from '../../hooks/useAudio.js';
 import { wonderNarration } from '../../utils/narration.js';
 
-const PARTICLES = ['🪙', '💵', '💰', '🏷️', '⭐', '🏆', '🎯', '💡', '🐷', '✨'];
+const PARTICLES = ['🏮', '🦁', '🍢', '🥟', '🧋', '🍡', '⭐', '🪧', '✨', '🥢'];
 
 export default function WonderPhase({ state, dispatch }) {
   const { narrate, stopAll } = useAudio(state?.audioEnabled ?? true);
@@ -34,7 +37,7 @@ export default function WonderPhase({ state, dispatch }) {
               left: `${5 + (i * 9.5) % 90}%`,
               top: `${5 + (i * 7.5) % 80}%`,
               animationDelay: `${i * 0.6}s`,
-              fontSize: `${1.1 + (i % 3) * 0.4}rem`,
+              fontSize: `${1.2 + (i % 3) * 0.4}rem`,
             }}
           >
             {p}
@@ -45,29 +48,35 @@ export default function WonderPhase({ state, dispatch }) {
       <div className="wonder-content anim-slide-up">
         {/* Main hook card */}
         <div className="wonder-card glass-card">
-          <div className="wonder-stadium-icon" aria-hidden="true">💰</div>
-          <h1 className="wonder-title headline">The Big Money Mystery!</h1>
+          <div className="wonder-stadium-icon" aria-hidden="true">🏮</div>
+          <h1 className="wonder-title headline">The Stall 50 Challenge!</h1>
 
           <div className="wonder-number-display">
-            <span className="number-display wonder-num">$2.70 ➔ 85¢ + 50¢ = $1.35 ➔ Change?</span>
+            <span className="number-display wonder-num">
+              Stall 1: 5 ➔ Stall 2: 8 ➔ Stall 3: 11 ➔ Stall 50: ?
+            </span>
           </div>
 
           <div className="wonder-question-card">
             <p className="body-text wonder-q">
-              If Oliver has <strong className="wonder-em">one $2 coin, three 20¢ coins, and one 10¢ coin ($2.70)</strong>…
+              A customer asks how many <strong className="wonder-em">satay sticks</strong> are stocked at <strong className="wonder-em">stall 50</strong>.
             </p>
             <p className="body-text wonder-q">
-              Can he buy an <strong className="wonder-em">85¢ muffin</strong> and a <strong className="wonder-em">50¢ pencil</strong>, and what is his <span className="wonder-highlight">exact change</span> from paying with $2?
+              The first stalls stock <span className="wonder-highlight">5, 8, 11…</span> Walking down 50 stalls would take all night! Can you work it out right from here?
             </p>
           </div>
 
           {/* Mascot */}
           <div className="wonder-mascot-row">
-            <Mascot mood="curious" message="Let's investigate how counting coins and making change works!" size="sm" />
+            <Mascot
+              mood="curious"
+              message="Can we build a signboard formula that tells us what's at ANY stall number?"
+              size="sm"
+            />
           </div>
 
           <button className="btn btn-primary btn-lg wonder-cta" onClick={handleInvestigate}>
-            Start Investigation 🔍
+            Enter the Night Market Story 🍢
           </button>
         </div>
       </div>

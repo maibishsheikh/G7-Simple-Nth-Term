@@ -1,18 +1,18 @@
 // src/components/phases/SimulatePhase.jsx
 import React, { useEffect, useRef } from 'react';
 import './SimulatePhase.css';
-import CoinRegisterStation from '../simulations/CoinRegisterStation.jsx';
-import PriceScannerStation from '../simulations/PriceScannerStation.jsx';
-import ChangeMakerStation from '../simulations/ChangeMakerStation.jsx';
-import ReceiptDetectiveStation from '../simulations/ReceiptDetectiveStation.jsx';
+import TheSignboardWorkshop from '../simulations/TheSignboardWorkshop.jsx';
+import StockTheStalls from '../simulations/StockTheStalls.jsx';
+import OpenTheMarket from '../simulations/OpenTheMarket.jsx';
+import TheWrongSignboard from '../simulations/TheWrongSignboard.jsx';
 import { useAudio } from '../../hooks/useAudio.js';
 import { simStationIntro } from '../../utils/narration.js';
 
 const STATIONS = [
-  { id: 0, label: 'A', name: 'Coin Register',     icon: '🪙', desc: 'Build exact target amounts' },
-  { id: 1, label: 'B', name: 'Market Scanner',    icon: '🛒', desc: 'Scan items & calculate totals' },
-  { id: 2, label: 'C', name: 'Change Maker',      icon: '🔄', desc: 'Calculate & dispense change' },
-  { id: 3, label: 'D', name: 'Receipt Detective', icon: '🔍', desc: 'Spot & fix receipt errors' },
+  { id: 0, label: 'A', name: 'Signboard Workshop', icon: '🪧', desc: 'Explore multipliers and constant offsets' },
+  { id: 1, label: 'B', name: 'Stock the Stalls',   icon: '🎯', desc: 'Build signboards to meet target stall amounts' },
+  { id: 2, label: 'C', name: 'Open the Market',    icon: '🏗️', desc: 'Chain tables, offsets, and far-away stalls' },
+  { id: 3, label: 'D', name: 'Wrong Signboard',    icon: '🔍', desc: 'Spot and fix rival signboard errors' },
 ];
 
 export default function SimulatePhase({ state, dispatch }) {
@@ -84,10 +84,10 @@ export default function SimulatePhase({ state, dispatch }) {
 
         {/* Station Content Area */}
         <div className="sim-station-area" role="tabpanel" key={s}>
-          {s === 0 && <CoinRegisterStation onComplete={() => handleStationComplete(0)} audioEnabled={state?.audioEnabled} />}
-          {s === 1 && <PriceScannerStation onComplete={() => handleStationComplete(1)} audioEnabled={state?.audioEnabled} />}
-          {s === 2 && <ChangeMakerStation onComplete={() => handleStationComplete(2)} audioEnabled={state?.audioEnabled} />}
-          {s === 3 && <ReceiptDetectiveStation onComplete={() => handleStationComplete(3)} audioEnabled={state?.audioEnabled} />}
+          {s === 0 && <TheSignboardWorkshop onComplete={() => handleStationComplete(0)} audioEnabled={state?.audioEnabled} />}
+          {s === 1 && <StockTheStalls onComplete={() => handleStationComplete(1)} audioEnabled={state?.audioEnabled} />}
+          {s === 2 && <OpenTheMarket onComplete={() => handleStationComplete(2)} audioEnabled={state?.audioEnabled} />}
+          {s === 3 && <TheWrongSignboard onComplete={() => handleStationComplete(3)} audioEnabled={state?.audioEnabled} />}
         </div>
 
         {/* Footer Navigation */}

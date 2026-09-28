@@ -1,12 +1,13 @@
 // src/components/IntroScreen.jsx
+// Intro Screen for NthQuest (Grade 7 · Simple Nth Term)
 import React from 'react';
 import './IntroScreen.css';
 import { generateSessionQuestions } from '../utils/shuffle.js';
 import questionBank from '../data/questionBank.js';
 
 const JOURNEY = [
-  { num: '01', icon: '🔍', label: 'Wonder',   desc: 'Spark your curiosity' },
-  { num: '02', icon: '📖', label: 'Story',    desc: 'Oliver & Emma\'s market' },
+  { num: '01', icon: '🔍', label: 'Wonder',   desc: 'The Stall 50 Challenge' },
+  { num: '02', icon: '📖', label: 'Story',    desc: "Jun Kai & Meera's quest" },
   { num: '03', icon: '🧪', label: 'Simulate', desc: '4 interactive labs' },
   { num: '04', icon: '🎮', label: 'Practice', desc: '10 worlds & bosses' },
   { num: '05', icon: '📓', label: 'Reflect',  desc: 'Review & scorecard' },
@@ -28,26 +29,27 @@ export default function IntroScreen({ state, dispatch }) {
     <div className="intro-wrap">
       {/* Top Badge */}
       <div className="intro-top-badge">
-        ✨ Curriculum · Money, Coins, Notes &amp; Change Grade 2–5
+        🏮 Secondary 1 Math · Simple Nth Term (Grade 7)
       </div>
 
       {/* Main Title */}
       <h1 className="intro-title">
-        <span className="text-orange">Money</span> <span className="text-white">Quest</span>
+        <span className="text-orange">Nth</span> <span className="text-white">Quest</span>
       </h1>
-      <h2 className="intro-subtitle">MoneyQuest · Master Coins, Notes, Prices &amp; Making Change</h2>
+      <h2 className="intro-subtitle">NthQuest · Master Position-to-Term &amp; Signboard Formulas</h2>
 
       {/* Mascot Row */}
       <div className="intro-mascot-row">
-        <div className="intro-mascot-circle">🐷</div>
+        <div className="intro-mascot-circle">🦁</div>
         <div className="intro-speech-bubble">
-          Hi! I'm Penny. Ready to explore the market,<br />count coins, and make exact change? 🪙💵
+          Hi! I'm Singa the Lion Cub. Ready to explore the night market<br />
+          and decode the signboard formulas? 🏮🍢
         </div>
       </div>
 
       {/* Description */}
       <p className="intro-desc">
-        Learn how to recognise coins &amp; notes, add prices, convert between cents &amp; dollars, and calculate change like a pro shopkeeper!
+        Discover what <em>n</em> actually means (the stall position!), read and substitute into signboards, and build linear nth-term expressions using the times-table-shift method!
       </p>
 
       {/* Journey Card */}
@@ -99,32 +101,22 @@ export default function IntroScreen({ state, dispatch }) {
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="intro-ctas">
-        <button className="btn btn-primary btn-lg intro-cta-main" onClick={startFresh}>
-          🚀 Begin Your Journey!
-        </button>
-        {hasSaved && (
-          <button className="btn btn-outline" onClick={resumeSession} style={{ marginTop: '10px' }}>
-            ↩ Resume Session
+      {/* CTA Buttons */}
+      <div className="intro-actions">
+        {hasSaved ? (
+          <>
+            <button className="btn btn-primary btn-lg" onClick={resumeSession}>
+              Resume Journey 🚀
+            </button>
+            <button className="btn btn-outline btn-lg" onClick={startFresh}>
+              Start Fresh 🔄
+            </button>
+          </>
+        ) : (
+          <button className="btn btn-primary btn-lg" onClick={startFresh}>
+            Begin Market Adventure 🏮
           </button>
         )}
-      </div>
-
-      {/* Bottom Cards */}
-      <div className="intro-bottom-cards">
-        <div className="bottom-card">
-          <div className="bottom-card-icon" style={{ color: '#ff6b6b' }}>🎯</div>
-          <div>100 Questions</div>
-        </div>
-        <div className="bottom-card">
-          <div className="bottom-card-icon" style={{ color: '#feca57' }}>🪙</div>
-          <div>Coins &amp; Notes</div>
-        </div>
-        <div className="bottom-card">
-          <div className="bottom-card-icon" style={{ color: '#66bb6a' }}>✨</div>
-          <div>Badges &amp; XP</div>
-        </div>
       </div>
     </div>
   );
