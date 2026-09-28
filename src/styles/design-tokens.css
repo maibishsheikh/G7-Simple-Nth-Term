@@ -1,0 +1,70 @@
+/* ════════════════════════════════════════════
+   NthQuest Design Tokens (Grade 7 · Simple Nth Term)
+   Singapore Night Market (Pasar Malam) Theme
+   ════════════════════════════════════════════ */
+
+:root {
+  /* ── Core palette ── */
+  --color-bg: #0d0d26;
+  --color-surface: rgba(26, 26, 64, 0.75);
+  --color-surface-hover: rgba(40, 40, 90, 0.85);
+  --color-primary: #f77f00;     /* lantern orange — CTAs, active states */
+  --color-primary-light: #fcbf49;
+  --color-secondary: #7209b7;   /* deep violet — secondary elements */
+  --color-accent: #06d6a0;      /* pandan green — correct answers */
+  --color-error: #e63946;       /* lantern red — wrong answers */
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.65);
+
+  /* ── Aliases used across components ── */
+  --gold: #fcbf49;
+  --gold-light: #ffe49e;
+  --purple: #7209b7;
+  --purple-light: #9d4edd;
+  --green: #06d6a0;
+  --green-light: #52e3be;
+  --red: #e63946;
+  --red-light: #f1707a;
+  --blue: #118ab2;
+  --blue-light: #48cae4;
+
+  /* ── Characters & Mascot ── */
+  --char-1: #4cc9f0;           /* Jun Kai */
+  --char-2: #f72585;           /* Meera */
+  --mascot: #ffb703;           /* Singa the Lion Cub */
+
+  /* ── 10 Night-Market World Accents (TRD §9) ── */
+  --world-0: #E63946;   /* Which Stall Is This? — lantern red */
+  --world-1: #F77F00;   /* Read the Signboard — fried-snack orange */
+  --world-2: #FCBF49;   /* Two-Part Signboards — bulb yellow */
+  --world-3: #06D6A0;   /* Far Down the Street — pandan green */
+  --world-4: #118AB2;   /* Match the Signboard — night-sky blue */
+  --world-5: #9B5DE5;   /* The Times-Table Trick — taro purple */
+  --world-6: #F15BB5;   /* Off by a Little — neon pink */
+  --world-7: #00BBF9;   /* Price Signboards — neon cyan */
+  --world-8: #8D6E63;   /* Spot the Wrong Signboard — wooden-signboard brown */
+  --world-9: #3F37C9;   /* The Grand Night Market — deep market indigo/navy */
+
+  /* ── Typography (Secondary-1 Enriched) ── */
+  --font-display: 'Fredoka', 'Nunito', system-ui, -apple-system, 'Segoe UI', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;
+  --font-body: 'Nunito', system-ui, -apple-system, 'Segoe UI', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', sans-serif;
+  --font-emoji: 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji', 'EmojiOne Color', sans-serif;
+
+  /* ── Radii ── */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  /* ── Shadows & Glows ── */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.45);
+  --shadow-glow-gold: 0 0 24px rgba(252, 191, 73, 0.4);
+  --shadow-glow-orange: 0 0 24px rgba(247, 127, 0, 0.45);
+  --shadow-glow-neon: 0 0 24px rgba(6, 214, 160, 0.45);
+
+  /* ── Transitions ── */
+  --transition-fast: 0.18s ease;
+  --transition-base: 0.3s ease;
+  --transition-spring: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}

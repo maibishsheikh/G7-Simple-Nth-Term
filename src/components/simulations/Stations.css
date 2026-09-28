@@ -1,0 +1,433 @@
+/* src/components/simulations/Stations.css */
+
+/* ─── Main Station Container (Single Viewport Fit) ───────────────────────── */
+.station-wrap {
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(6px, 1vh, 12px) clamp(8px, 1.2vw, 16px);
+  gap: clamp(6px, 1vh, 10px);
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* ─── Station Header & Badges ───────────────────────────────────────────── */
+.station-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 8px;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 2px;
+}
+
+.station-title {
+  color: #fcd34d;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.1rem, 1.35vw, 1.35rem);
+  line-height: 1.2;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.station-target-box {
+  background: rgba(247, 127, 0, 0.22);
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 3px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.station-target-label {
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  font-weight: 800;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.station-target-num {
+  color: #ffd54f;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.15rem, 1.5vw, 1.45rem);
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(255, 213, 79, 0.5);
+}
+
+/* ─── 2-Column Responsive Grid ──────────────────────────────────────────── */
+.station-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 1.2vw, 14px);
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .station-grid-2col {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+}
+
+.station-col-left,
+.station-col-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(6px, 1vh, 10px);
+  width: 100%;
+  min-height: 0;
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* ─── Steppers (Keyboard + Click) ────────────────────────────────────────── */
+.stepper-panel {
+  background: rgba(20, 20, 52, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stepper-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stepper-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stepper-title {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #f1f5f9;
+}
+
+.stepper-hint {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.stepper-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepper-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(247, 127, 0, 0.25);
+  border: 1.5px solid var(--color-primary);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+  user-select: none;
+}
+
+.stepper-btn:hover:not(:disabled) {
+  transform: scale(1.08);
+  background: rgba(247, 127, 0, 0.45);
+}
+
+.stepper-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.stepper-val {
+  min-width: 38px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: var(--gold);
+}
+
+/* ─── Live Stalls Grid Display ───────────────────────────────────────────── */
+.live-stalls-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .live-stalls-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.live-stall-card {
+  background: rgba(25, 20, 48, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.live-stall-card.target-stall {
+  border-color: var(--gold);
+  background: rgba(252, 191, 73, 0.15);
+  box-shadow: 0 0 12px rgba(252, 191, 73, 0.3);
+}
+
+.live-stall-card.match-yes {
+  border-color: #06d6a0;
+  background: rgba(6, 214, 160, 0.15);
+}
+
+.live-stall-card.match-no {
+  border-color: #e63946;
+  background: rgba(230, 57, 70, 0.15);
+}
+
+.live-stall-n {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.live-stall-stock {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.live-stall-ghost {
+  font-size: 0.68rem;
+  color: #4cc9f0;
+  background: rgba(76, 201, 240, 0.12);
+  padding: 1px 4px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.match-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.match-tag.success {
+  background: #06d6a0;
+  color: #000;
+}
+
+.match-tag.pending {
+  background: rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+}
+
+/* ─── Target Goals Box ───────────────────────────────────────────────────── */
+.targets-summary-box {
+  background: rgba(30, 30, 75, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.target-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.target-label {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #cbd5e1;
+}
+
+.target-status {
+  font-weight: 800;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ─── Station Success Banner ─────────────────────────────────────────────── */
+.station-success-panel {
+  background: linear-gradient(135deg, rgba(6, 214, 160, 0.25) 0%, rgba(17, 138, 178, 0.25) 100%);
+  border: 2px solid #06d6a0;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  animation: slideUp 0.3s ease;
+  margin-top: 6px;
+}
+
+.station-success-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.station-success-icon {
+  font-size: 1.8rem;
+}
+
+.station-success-title {
+  font-weight: 900;
+  font-size: 1.05rem;
+  color: #06d6a0;
+}
+
+.station-success-desc {
+  font-size: 0.82rem;
+  color: #e2e8f0;
+}
+
+/* ─── Error Detective Lines ──────────────────────────────────────────────── */
+.error-lines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.error-line-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: left;
+}
+
+.error-line-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(4px);
+}
+
+.error-line-card.selected-error {
+  border-color: #e63946;
+  background: rgba(230, 57, 70, 0.22);
+  box-shadow: 0 0 14px rgba(230, 57, 70, 0.4);
+}
+
+.error-line-card.selected-correct {
+  border-color: #06d6a0;
+  background: rgba(6, 214, 160, 0.22);
+}
+
+.error-line-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.error-line-text {
+  font-size: 0.95rem;
+  color: #f1f5f9;
+  flex: 1;
+}
+
+/* ─── Construction Wizard Steps ─────────────────────────────────────────── */
+.wizard-steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.wizard-step-box {
+  background: rgba(20, 20, 50, 0.85);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wizard-step-box.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(252, 191, 73, 0.25);
+}
+
+.wizard-step-box.completed {
+  border-color: #06d6a0;
+  background: rgba(6, 214, 160, 0.08);
+}
+
+.wizard-step-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: #f8fafc;
+}

@@ -1,0 +1,348 @@
+/* src/components/shared/SignboardVisual.css */
+/* Singapore Night Market Visuals for NthQuest */
+
+.sb-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.sb-container.compact {
+  max-width: 520px;
+}
+
+/* ════════════════════════════════════════════
+   1. MARKET SIGNBOARD
+   ════════════════════════════════════════════ */
+.signboard-frame {
+  position: relative;
+  background: linear-gradient(145deg, #2b1e16 0%, #1a120c 100%);
+  border: 3px solid #d4a373;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sb-container.compact .signboard-frame {
+  padding: 10px 16px;
+  gap: 6px;
+}
+
+.signboard-lanterns {
+  position: absolute;
+  top: -14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  font-size: 1.25rem;
+}
+
+.signboard-header-tag {
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #faedcd;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.signboard-expression-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  font-weight: 900;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.sb-container.compact .signboard-expression-row {
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+}
+
+.signboard-prefix {
+  color: #e9ecef;
+  font-weight: 700;
+  font-size: 0.75em;
+  opacity: 0.9;
+}
+
+.signboard-equals {
+  color: var(--gold);
+}
+
+.signboard-coeff-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signboard-coeff {
+  color: #4cc9f0;
+  text-shadow: 0 0 12px rgba(76, 201, 240, 0.6);
+}
+
+.signboard-var {
+  color: #ffb703;
+}
+
+.signboard-operator {
+  color: #f72585;
+  margin: 0 2px;
+}
+
+.signboard-constant-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signboard-constant {
+  color: #06d6a0;
+  text-shadow: 0 0 12px rgba(6, 214, 160, 0.6);
+}
+
+.signboard-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 4px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  padding-top: 8px;
+}
+
+.signboard-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legend-dot.coeff { background: #4cc9f0; box-shadow: 0 0 6px #4cc9f0; }
+.legend-dot.variable { background: #ffb703; box-shadow: 0 0 6px #ffb703; }
+.legend-dot.constant { background: #06d6a0; box-shadow: 0 0 6px #06d6a0; }
+
+/* ════════════════════════════════════════════
+   2. STALL ROW
+   ════════════════════════════════════════════ */
+.stall-row-wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+  padding: 10px 4px 6px;
+  scrollbar-width: thin;
+}
+
+.stall-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(30, 25, 55, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 8px 10px;
+  min-width: 68px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.stall-card.highlighted {
+  border-color: var(--gold);
+  background: rgba(247, 127, 0, 0.25);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(247, 127, 0, 0.35);
+}
+
+.stall-awning {
+  font-size: 1.4rem;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stall-number-badge {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #cbd5e1;
+  text-transform: uppercase;
+}
+
+.stall-stock-display {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.stall-stock-num {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--gold);
+}
+
+.stall-stock-label {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* ════════════════════════════════════════════
+   3. TIMES-TABLE GHOST OVERLAY
+   ════════════════════════════════════════════ */
+.times-table-ghost-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ghost-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  gap: 6px;
+  width: 100%;
+}
+
+.ghost-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(18, 18, 48, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 6px 4px;
+  gap: 4px;
+}
+
+.ghost-col-stall {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #94a3b8;
+}
+
+.ghost-table-val {
+  background: rgba(76, 201, 240, 0.12);
+  border: 1px dashed #4cc9f0;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #4cc9f0;
+  width: 90%;
+  text-align: center;
+}
+
+.ghost-offset-val {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.ghost-offset-val.positive {
+  color: #06d6a0;
+  background: rgba(6, 214, 160, 0.15);
+}
+
+.ghost-offset-val.negative {
+  color: #f72585;
+  background: rgba(247, 37, 133, 0.15);
+}
+
+.ghost-actual-val {
+  background: rgba(255, 183, 3, 0.25);
+  border: 1.5px solid var(--gold);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  color: #fff;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* ════════════════════════════════════════════
+   4. POSITION-TERM TABLE
+   ════════════════════════════════════════════ */
+.pt-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  background: rgba(20, 20, 52, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 4px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.pt-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px;
+  text-align: center;
+}
+
+.pt-table th {
+  background: rgba(247, 127, 0, 0.25);
+  border: 1px solid rgba(247, 127, 0, 0.4);
+  color: #fed7aa;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+
+.pt-table td {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.pt-table td.missing-cell {
+  background: rgba(230, 57, 70, 0.25);
+  border: 2px dashed #e63946;
+  color: #ffb4a2;
+  animation: pulse 2s infinite ease-in-out;
+}
