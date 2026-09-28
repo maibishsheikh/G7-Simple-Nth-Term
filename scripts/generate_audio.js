@@ -1,11 +1,10 @@
 // scripts/generate_audio.js
-// Offline pre-generation script for ElevenLabs narration audio files.
-// Strictly follows audio_generation_pipeline (5).md specifications.
+// Offline pre-generation script for ElevenLabs narration audio files in NthQuest.
+// Strictly follows audio_generation_pipeline (5).md and PRD §11 specifications.
 
 import fs from 'fs';
 import path from 'path';
 
-// Helper to read environment variables without external dependencies
 function loadEnv() {
   const envFiles = ['.env.local', '.env'];
   for (const file of envFiles) {
@@ -28,11 +27,6 @@ function loadEnv() {
 loadEnv();
 
 const apiKey = process.env.VITE_ELEVENLABS_API_KEY || process.env.ELEVENLABS_API_KEY;
-if (!apiKey) {
-  console.error("\n❌ Error: VITE_ELEVENLABS_API_KEY is not defined in .env.local or .env.");
-  console.log("Please create a .env.local file with: VITE_ELEVENLABS_API_KEY=your_key_here\n");
-  process.exit(1);
-}
 
 const VOICE_ID = 'Xb7hH8MSUJpSbSDYk0k2'; // Alice — Clear, Engaging Educator
 const VOICE_MODEL = 'eleven_multilingual_v2';
@@ -49,80 +43,84 @@ const VOICE_SETTINGS = {
 
 const phrases = [
   // ─── INTRO ────────────────────────────────────────────────────────────────
-  { text: "Welcome to MoneyQuest! Let's investigate the big money mystery!", style: 'celebration' },
+  { text: "Welcome to NthQuest! Let's explore the Singapore Night Market!", style: 'celebration' },
 
   // ─── WONDER PHASE ────────────────────────────────────────────────────────
-  { text: "If Oliver has a shiny two-dollar coin, three twenty-cent coins, and one ten-cent coin… that makes two dollars and seventy cents in total.", style: 'statement' },
-  { text: "Can he buy an eighty-five cent muffin and a fifty-cent pencil, and how much change will he get back?", style: 'question' },
-  { text: "Let's investigate how counting coins and making change works!", style: 'celebration' },
+  { text: "A customer asks how many satay sticks are at stall fifty. The first stalls stock five, eight, eleven…", style: 'statement' },
+  { text: "Walking down fifty stalls would take all night! Can you work it out from here?", style: 'question' },
+  { text: "Let's investigate how signboards and position numbers tell us what's at any stall!", style: 'celebration' },
 
   // ─── STORY PHASE: PANEL 1 ────────────────────────────────────────────────
-  { text: "Oliver had been saving up all week by helping with chores at home.", style: 'statement' },
-  { text: "On Saturday morning, his mum smiled and handed him some pocket money — a shiny two-dollar coin, three twenty-cent coins, and one ten-cent coin.", style: 'statement' },
-  { text: "How much money do I have altogether? Oliver wondered, spreading the coins out on the table.", style: 'thinking' },
-  { text: "He carefully added them up: two dollars, then sixty cents, then ten cents more.", style: 'statement' },
-  { text: "I have two dollars and seventy cents! he cheered proudly.", style: 'celebration' },
+  { text: "Jun Kai and Meera were helping at the bustling Singapore night market when a hungry customer walked up.", style: 'statement' },
+  { text: "Excuse me! How many satay sticks are stocked at stall number fifty? the customer asked.", style: 'question' },
+  { text: "Stall one has five sticks, stall two has eight sticks, and stall three has eleven sticks, Meera noticed. It keeps growing by three!", style: 'statement' },
+  { text: "Jun Kai sighed. Stall fifty is all the way down the street. Walking down fifty stalls would take all night!", style: 'statement' },
+  { text: "There must be a mathematical shortcut to calculate stall fifty right now, Meera smiled.", style: 'celebration' },
 
   // ─── STORY PHASE: PANEL 2 ────────────────────────────────────────────────
-  { text: "At the school market, Oliver's eyes went wide at all the stalls.", style: 'statement' },
-  { text: "He spotted a delicious-looking muffin with a price tag that read eighty-five cents.", style: 'statement' },
-  { text: "Do I have enough money to buy it? he asked nervously.", style: 'question' },
-  { text: "Emma, who was helping at the stall, grinned. It's simple! Your twenty-cent coins and ten-cent coin make seventy cents. You need eighty-five cents, so you need fifteen cents more.", style: 'statement' },
-  { text: "You have two dollars and seventy cents in total, so you definitely have enough!", style: 'celebration' },
+  { text: "Singa the Lion Cub trotted over with a glowing signboard showing three times n, plus two.", style: 'statement' },
+  { text: "Look at the letter n, Singa purred. The letter n is the position number! Here, n means the stall number!", style: 'statement' },
+  { text: "Jun Kai squinted at the board. So three times n plus two means start at three and add two?", style: 'question' },
+  { text: "Not quite, laughed Meera! To read the signboard, replace n with the stall number and calculate in order.", style: 'statement' },
+  { text: "For stall one, replace n with one: three times one is three, plus two is five! That matches stall one exactly!", style: 'celebration' },
 
   // ─── STORY PHASE: PANEL 3 ────────────────────────────────────────────────
-  { text: "Oliver decided to buy the muffin. He handed over his one-dollar coin.", style: 'statement' },
-  { text: "Emma smiled and opened the till. Your muffin costs eighty-five cents, and you gave me one dollar. So I need to give you back the difference!", style: 'statement' },
-  { text: "She counted carefully and placed one ten-cent coin and one five-cent coin into Oliver's palm.", style: 'statement' },
-  { text: "That's fifteen cents change! Penny the Piggy Bank bounced excitedly. Change is the money you get back when you pay MORE than the price! One dollar minus eighty-five cents equals fifteen cents.", style: 'celebration' },
+  { text: "How do we build our own signboard from scratch? asked Jun Kai.", style: 'question' },
+  { text: "Meera wrote down the stock numbers: four, seven, ten, thirteen. Notice they go up by three each time!", style: 'statement' },
+  { text: "That means it is connected to the three times table: three, six, nine, twelve!", style: 'statement' },
+  { text: "Meera overlaid the stock numbers on the three times table. Four is three plus one. Seven is six plus one. Every stall is the three times table shifted up by one!", style: 'statement' },
+  { text: "Singa cheered: Always check more than one stall! At stall one, three times one plus one is four. At stall two, three times two plus one is seven! Both check out!", style: 'celebration' },
 
   // ─── STORY PHASE: PANEL 4 ────────────────────────────────────────────────
-  { text: "By the end of the market day, Oliver had bought a muffin for eighty-five cents, a pencil for fifty cents, and a sticker pack for one dollar and twenty cents.", style: 'statement' },
-  { text: "He spent two dollars and fifty-five cents in total! Starting with two dollars and seventy cents, he had fifteen cents left over.", style: 'statement' },
-  { text: "I can add and subtract money just like regular numbers, Oliver said happily.", style: 'statement' },
-  { text: "Emma high-fived him. You're a money master now, Oliver! Penny jingled with joy.", style: 'celebration' },
+  { text: "Now we can easily answer the customer's question for stall fifty without walking down the street!", style: 'statement' },
+  { text: "Our rule adds three each time, so start with three times n. At stall one, three times one is three, but we need five satay sticks. So add two: three times n, plus two!", style: 'statement' },
+  { text: "Let's check stall two: three times two is six, plus two is eight. It matches!", style: 'statement' },
+  { text: "Now substitute stall fifty: replace n with fifty. Three times fifty is one hundred and fifty, plus two is one hundred and fifty-two!", style: 'statement' },
+  { text: "Stall fifty stocks one hundred and fifty-two satay sticks! The customer cheered, and Singa stamped the signboard approved!", style: 'celebration' },
 
   // ─── SIMULATE STATION INTROS ─────────────────────────────────────────────
-  { text: "Welcome to Station A — Coin Counter and Register Lab!", style: 'instruction' },
-  { text: "Tap the coins in the tray to build the exact target amount shown. Tap any coin in your purse to remove it. Try using the fewest coins possible!", style: 'instruction' },
-  { text: "Welcome to Station B — Supermarket Scanner and Price Matcher!", style: 'instruction' },
-  { text: "Scan items on the market conveyor, see the prices print on your receipt, and solve the shopping budget challenges!", style: 'instruction' },
-  { text: "Welcome to Station C — The Cashier Change Maker!", style: 'instruction' },
-  { text: "You are the shopkeeper! A customer buys an item and pays with a larger coin or note. Calculate the change and dispense the exact coins from the till drawer!", style: 'instruction' },
-  { text: "Welcome to Station D — Receipt Detective!", style: 'instruction' },
-  { text: "Detective Penny has found receipts with change calculation errors. Inspect the receipt, spot the mistake, and fix the amount!", style: 'instruction' },
+  { text: "Welcome to Station A — The Signboard Workshop!", style: 'instruction' },
+  { text: "Adjust the multiplier and offset to build your signboard, and watch the row of numbered stalls restock live! Notice how the ghost stacks show the times table.", style: 'instruction' },
+  { text: "Welcome to Station B — Stock the Stalls Challenge!", style: 'instruction' },
+  { text: "Your goal is to stock two target stalls with exact quantities. Tune the signboard multiplier and offset until both target stalls match!", style: 'instruction' },
+  { text: "Welcome to Station C — Open the Market Construction!", style: 'instruction' },
+  { text: "Fill in the missing values in the position table, find the times-table offset, craft the signboard, and calculate the stock for a far-away stall!", style: 'instruction' },
+  { text: "Welcome to Station D — The Wrong Signboard Detective!", style: 'instruction' },
+  { text: "A rival vendor made a mistake in their signboard calculations. Tap the faulty line to find the error, and enter the correct signboard!", style: 'instruction' },
 
   // ─── FEEDBACK & HINTS ────────────────────────────────────────────────────
-  { text: "Spot on! That's correct! 🎉", style: 'celebration' },
+  { text: "Spot on! That formula is correct! 🎉", style: 'celebration' },
   { text: "Awesome! Three in a row! ⭐", style: 'celebration' },
-  { text: "Incredible streak! You are unstoppable! 🔥", style: 'celebration' },
-  { text: "Not quite — check the hint, count the coins carefully, and try again! 💡", style: 'thinking' },
-  { text: "Here's your first hint! Look at the biggest coins or dollars first.", style: 'encouragement' },
-  { text: "Here's your final clue! Break down the dollars and cents step by step.", style: 'encouragement' },
+  { text: "Incredible streak! You are an unstoppable night market master! 🔥", style: 'celebration' },
+  { text: "Not quite — check the hint, test both stalls carefully, and try again! 💡", style: 'thinking' },
+  { text: "Here is your first hint! Look at the pattern or common difference between stalls.", style: 'encouragement' },
+  { text: "Here is your second hint! Substitute the position number into the formula.", style: 'encouragement' },
 
-  // ─── DISTRICT & BOSS BATTLES ─────────────────────────────────────────────
-  { text: "World Complete! Spectacular job on this money district! 🌟", style: 'celebration' },
-  { text: "The Boss Battle begins! Answer correctly to defeat the boss and claim your badge!", style: 'emphasis' },
-  { text: "Victory! You defeated the boss and claimed the World Badge! 👑", style: 'celebration' },
+  // ─── GAMIFICATION & BOSS NARRATIONS ──────────────────────────────────────
+  { text: "World Complete! You conquered all the stalls in this district! 🏆", style: 'celebration' },
+  { text: "A rival vendor challenges your signboard knowledge! Solve all questions to win! ⚔️", style: 'emphasis' },
+  { text: "Incredible victory! You defeated the boss and claimed your new Market Badge! 🏆", style: 'celebration' },
 
   // ─── REFLECT PHASE ───────────────────────────────────────────────────────
-  { text: "Welcome to the Reflect Phase! Let's review the key money concepts and check your scorecard! 📓", style: 'statement' },
-  { text: "Outstanding! You have mastered money, coins, notes, and making change! You are a true Money Master! 🏆", style: 'celebration' },
+  { text: "Welcome to the Reflection Phase!", style: 'statement' },
+  { text: "Let's review the key signboard concepts, check your misconceptions, and view your final market scorecard!", style: 'statement' },
+  { text: "Congratulations! You have completed the entire NthQuest journey and mastered simple nth-term algebra! 🏮🏆", style: 'celebration' },
 ];
 
-const outputDir = './public/assets/audio';
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
-}
-
 function cleanString(str) {
-  return str.toLowerCase().replace(/[^a-z0-9]/g, '_').substring(0, 45).replace(/_+/g, '_').replace(/^_|_$/g, '');
+  return str
+    .toLowerCase()
+    .replace(/[^\w\s]/gi, '')
+    .trim()
+    .replace(/\s+/g, '_')
+    .substring(0, 48);
 }
 
 async function main() {
-  console.log(`\n🎙️ Starting ElevenLabs Audio Generation Pipeline`);
-  console.log(`Voice ID: ${VOICE_ID} | Model: ${VOICE_MODEL}`);
-  console.log(`Total phrases to process: ${phrases.length}\n`);
+  const outputDir = path.resolve('public/assets/audio');
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
 
   const mapping = {};
 
@@ -136,7 +134,10 @@ async function main() {
     mapping[text] = relativeWebPath;
 
     if (fs.existsSync(destPath)) {
-      console.log(`[${i + 1}/${phrases.length}] ⏩ Skipped (already exists): ${fileName}`);
+      continue;
+    }
+
+    if (!apiKey) {
       continue;
     }
 
@@ -173,10 +174,9 @@ async function main() {
   }
 
   // Write mapping to src/utils/audioMap.js
-  const mapContent = `// Auto-generated by generate_audio.js\n// Static asset mapping for offline generated narration phrases in MoneyQuest\n\nexport const audioMap = ${JSON.stringify(mapping, null, 2)};\n\nexport default audioMap;\n`;
+  const mapContent = `// Auto-generated by generate_audio.js\n// Static asset mapping for offline generated narration phrases in NthQuest\n\nexport const audioMap = ${JSON.stringify(mapping, null, 2)};\n\nexport default audioMap;\n`;
   fs.writeFileSync('./src/utils/audioMap.js', mapContent);
   console.log("\n✨ Audio mapping updated in src/utils/audioMap.js!");
-  console.log("🎉 Audio generation completed successfully!\n");
 }
 
 main().catch(console.error);
